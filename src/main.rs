@@ -1,4 +1,3 @@
-pub mod module1;
 use std::default::Default;
 use mysql::*;
 use mysql::prelude::*;
@@ -7,7 +6,87 @@ use serde::{Deserialize, Serialize};
 use chrono::NaiveDate;
 
 fn main() {
-    let conn = get_db_conn();
+    test_enum();
+    test_trait();
+}
+
+enum MyEnum {
+    TypeA(TypeA),
+    TypeB(TypeB),
+    TypeC(TypeC),
+}
+
+struct TypeA;
+impl TypeA {
+    fn method_a(&self) {
+        println!("TypeA method called");
+    }
+}
+
+struct TypeB;
+impl TypeB {
+    fn method_b(&self) {
+        println!("TypeB method called");
+    }
+}
+
+struct TypeC;
+impl TypeC {
+    fn method_c(&self) {
+        println!("TypeC method called");
+    }
+}
+
+fn test_enum() {
+    let vec: Vec<MyEnum> = vec![
+        MyEnum::TypeA(TypeA),
+        MyEnum::TypeB(TypeB),
+        MyEnum::TypeC(TypeC),
+    ];
+    for item in vec {
+        match item {
+            MyEnum::TypeA(type_a) => type_a.method_a(),
+            MyEnum::TypeB(type_b) => type_b.method_b(),
+            MyEnum::TypeC(type_c) => type_c.method_c(),
+        }
+    }
+}
+
+trait MyTrait {
+    fn my_method(&self);
+}
+
+struct Type_A;
+impl MyTrait for Type_A {
+    fn my_method(&self) {
+        println!("TypeA method called");
+    }
+}
+
+struct Type_B;
+impl MyTrait for Type_B {
+    fn my_method(&self) {
+        println!("TypeB method called");
+    }
+}
+
+struct Type_C;
+impl MyTrait for Type_C {
+    fn my_method(&self) {
+        println!("TypeC method called");
+    }
+}
+
+fn test_trait() {
+    let vec: Vec<Box<dyn MyTrait>> = vec![
+        Box::new(Type_A),
+        Box::new(Type_B),
+        Box::new(Type_C),
+    ];
+
+    for item in vec {
+        item.my_method();
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
