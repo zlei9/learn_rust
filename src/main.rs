@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 use chrono::NaiveDate;
 
 fn main() {
+
     test_enum();
     test_trait();
 }
