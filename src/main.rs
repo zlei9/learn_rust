@@ -5,10 +5,22 @@ use mysql::Pool;
 use serde::{Deserialize, Serialize};
 use chrono::NaiveDate;
 
-fn main() {
+// 声明一个字符连接的的宏
+macro_rules! concat_strings {
+    ($str1:expr, $str2:expr) => {
+        {
+            let mut result = String::new();
+            result.push_str($str1);
+            result.push_str($str2);
+            result
+        }
+    };
+}
 
-    test_enum();
-    test_trait();
+fn main() {
+    // 使用宏将 "Hello, " 和 "world!" 连接起来
+    let result = concat_strings!("Hello, ", "world!");
+    println!("{}", result);  // 输出 "Hello, world!"
 }
 
 enum MyEnum {
